@@ -91,7 +91,8 @@ public class Bd {
                 float precio=rs.getFloat(4);
                 String descripcion=rs.getString(5);
                 int descuento=rs.getInt(6);
-                Carta carta = new Carta(id, categoria, foto, precio, descripcion, descuento);
+                String texto = rs.getString(7);
+                Carta carta = new Carta(id, categoria, foto, precio, descripcion, descuento, texto);
                 cartas.add(carta);
            
            }
@@ -112,7 +113,8 @@ public class Bd {
            float precio=rs.getFloat(4);
            String descripcion=rs.getString(5);
            int descuento=rs.getInt(6);
-           carta = new Carta(id, categoria, foto, precio, descripcion, descuento);
+           String texto = rs.getString(7);
+           carta = new Carta(id, categoria, foto, precio, descripcion, descuento, texto);
        } catch (SQLException ex) {
            Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
        }

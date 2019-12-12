@@ -16,14 +16,24 @@ public class Carta {
     private float precio;
     private String descripcion;
     private int descuento;
+    private String texto;
 
-    public Carta(int id, int categoria, String foto, float precio, String descripcion, int descuento) {
+    public Carta(int id, int categoria, String foto, float precio, String descripcion, int descuento,String texto) {
         this.id = id;
         this.categoria = categoria;
         this.foto = foto;
         this.precio = precio;
         this.descripcion = descripcion;
         this.descuento = descuento;
+        this.texto = texto;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
     public int getId() {

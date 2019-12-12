@@ -65,7 +65,6 @@
     }
     img{
       width: auto;
-      margin: auto;
       margin-left:50px ;
     }
     body{
@@ -85,12 +84,14 @@
     }
     .izquierda{
         display: inline-block;
+        top:0;
         width: 30%;
         padding: 4%;
     }
     .derecha{
-        padding: 2%;
-        display: inline-block;
+        display:inline-block;
+        flex-direction:column;
+        padding: 4%;
         width: 58%;
 
     }
@@ -138,6 +139,10 @@
     <h6> Precio ahora: <%=(Math.floor((carta.getPrecio()*((100.0-carta.getDescuento())/100))*100))/100%>€</h6>
     <%}else{%>
     <h6>Precio: <%=carta.getPrecio()%>€</h6><%}%>
+    <%if(carta.getTexto()!=null){%>
+    <h6>Descripcion:</h6>
+    
+    <h6><%=carta.getTexto()%></h6><%}%>
     <a href="#" class="btn btn-primary btn-success">Añadir al carrito</a>
 
    </div> 
