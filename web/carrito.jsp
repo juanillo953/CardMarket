@@ -1,6 +1,6 @@
 <%-- 
-    Document   : muestraArticulos
-    Created on : 12-dic-2019, 11:08:43
+    Document   : carrito
+    Created on : 16-dic-2019, 9:45:15
     Author     : Alumno_2DAW
 --%>
 
@@ -13,8 +13,7 @@
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
     Bd bd = new Bd();
     bd.abrirConexion();
-    Carta carta= bd.obtenerCarta(Integer.parseInt(request.getParameter("id")));
-    String cat = bd.obtenerCategoria(carta.getCategoria());
+    List<Carta> cartas = (List)sesion.getAttribute("carrito");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,10 +62,6 @@
     body{
         background-image: url("./imagenes/fondo");
     }
-    img{
-      width: auto;
-      margin-left:50px ;
-    }
     body{
       background-image: url("./imagenes/black.jpg");
     }
@@ -104,7 +99,24 @@
     .invisible{
       display: none;
     }
+    .carrito{
+      width: 85%;
+      background: rgba(255, 255, 255, 0.774);
+    }
+    .imagenCarrito{
+      padding: 2%;
+      display: inline-block;
+      width: 10%;
 
+    }
+    .contadorCarrito{
+      width: 20%;
+
+    }
+    span{
+        padding: 2%;
+    }
+    
     </style>
 </head>
 <body>
@@ -136,25 +148,17 @@
   </div>
 </nav>
 <div class="max-contenedor">
-   <div class="izquierda"><img src="<%=carta.getFoto()%>.jpg" alt=""></div>
-   <div class="derecha">
-    <h2 class="nombre"><%=carta.getDescripcion()%></h2>
-    <h5>Rareza: <%=cat%></h5>
-    <%if(carta.getDescuento()!=0){%><h6 class="rojo">Este articulo cuenta con un descuento de <%=carta.getDescuento()%>%</h6>
-    <h6 class="tachado">Precio antes: <%=carta.getPrecio()%>€</h6>
-    <h6> Precio ahora: <%=(Math.floor((carta.getPrecio()*((100.0-carta.getDescuento())/100))*100))/100%>€</h6>
-    <%}else{%>
-    <h6>Precio: <%=carta.getPrecio()%>€</h6><%}%>
-    <%if(carta.getTexto()!=null){%>
-    <h6>Descripcion:</h6>
-    
-    <h6><%=carta.getTexto()%></h6><%}%>
-    <form action="ServletCarrito" method="POST">
-      <input type="text" name="id_cart" value="<%=carta.getId()%>" class="invisible">
-      <input type="submit" value="Añadir al carrito" class="btn btn-primary btn-success">
-    </form>
+  <table>
+    <th>Foto</th>
+    <th></th>
+    <th></th>
 
-   </div> 
+
+  </table>
+  <%for(int contador=0;contador<cartas.size();contador++){%>
+  <div class="carrito"><img src="<%=cartas.get(contador).getFoto()%>.jpg" class="imagenCarrito" alt=""><span><%=cartas.get(contador).getDescripcion()%></span>
+  <input type="number" name="cantidad[]" id="" value="<%=cartas.get(contador).getCantidad()%>"></div>
+  <%}%>
    
 </div>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">

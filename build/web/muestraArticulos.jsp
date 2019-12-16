@@ -101,6 +101,9 @@
       <li class="nav-item">
                       <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
+      </li>
     </ul>
   </div>
 </nav>

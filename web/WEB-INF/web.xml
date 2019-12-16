@@ -12,6 +12,10 @@
         <servlet-name>ServletActualizaDatos</servlet-name>
         <servlet-class>controlador.ServletActualizaDatos</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletCarrito</servlet-name>
+        <servlet-class>controlador.ServletCarrito</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletRegistro</servlet-name>
         <url-pattern>/ServletRegistro</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ServletActualizaDatos</servlet-name>
         <url-pattern>/ServletActualizaDatos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletCarrito</servlet-name>
+        <url-pattern>/ServletCarrito</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

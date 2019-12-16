@@ -101,6 +101,9 @@
     h5,h6{
         margin:2%;
     }
+    .invisible{
+      display: none;
+    }
 
     </style>
 </head>
@@ -126,6 +129,9 @@
       <li class="nav-item">
                       <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -143,7 +149,10 @@
     <h6>Descripcion:</h6>
     
     <h6><%=carta.getTexto()%></h6><%}%>
-    <a href="#" class="btn btn-primary btn-success">Añadir al carrito</a>
+    <form action="ServletCarrito" method="POST">
+      <input type="text" name="id_cart" value="<%=carta.getId()%>" class="invisible">
+      <input type="submit" value="Añadir al carrito" class="btn btn-primary btn-success">
+    </form>
 
    </div> 
    

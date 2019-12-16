@@ -8,7 +8,6 @@ package controlador;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,13 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import modelo.Carta;
-import modelo.Usuario;
 
 /**
  *
  * @author Alumno_2DAW
  */
-public class ServletLogea extends HttpServlet {
+public class ServletCarrito extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +42,10 @@ public class ServletLogea extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServletLogea</title>");            
+            out.println("<title>Servlet ServletCarrito</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletLogea at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ServletCarrito at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -80,37 +78,41 @@ public class ServletLogea extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher rd;
-        String user = request.getParameter("user");
-        String pass = request.getParameter("pass");
-        Bd bd = new Bd();
-        try {
-            bd.abrirConexion();
-            List<Usuario> usuarios = bd.obtenerUsuarios();
-            int cuenta=0;
-            for(int contador = 0;contador<usuarios.size();contador++){
-                if(usuarios.get(contador).getUser().equals(user) && usuarios.get(contador).getPass().equals(pass)){
-                    HttpSession sesion = request.getSession();
-                    sesion.setMaxInactiveInterval(900);
-                    cuenta++;
-                    sesion.setAttribute("usuario", usuarios.get(contador));
-                    List<Carta> cartas = new ArrayList<Carta>();
-                    sesion.setAttribute("carrito", cartas);
-                    rd = request.getRequestDispatcher("./principal.jsp");
-                    rd.forward(request, response);
-                }
+        HttpSession sesion = request.getSession();
+        int cuenta =0;
+        int cantidad=0;
+        int numero =0;
+        int id = Integer.parseInt(request.getParameter("id_cart"));
+        List<Carta> cartas = (List)sesion.getAttribute("carrito");
+        for(int contador = 0;contador<cartas.size();contador++){
+            if(cartas.get(contador).getId()==id){
+                numero=contador;
+                cuenta++;
+                cantidad=cartas.get(contador).getCantidad();
+                break;
+                
             }
-            if(cuenta==0){
-                request.setAttribute("errorLogin", "La informacion proporcionada no es correcta.");
-                rd = request.getRequestDispatcher("./login.jsp");
-                rd.forward(request, response);
-            }
-           
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ServletLogea.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServletLogea.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if(cuenta!=0){
+            cartas.get(numero).setCantidad(cantidad+1);
+        }
+        else{
+            Bd bd = new Bd();
+            try {
+                bd.abrirConexion();
+                Carta carta = bd.obtenerCarta(id);
+                carta.setCantidad(1);
+                cartas.add(carta);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ServletCarrito.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ServletCarrito.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        sesion.setAttribute("carrito", cartas);
+        rd = request.getRequestDispatcher("detalleArticulo.jsp?id="+id);
+        rd.forward(request, response);
     }
 
     /**
