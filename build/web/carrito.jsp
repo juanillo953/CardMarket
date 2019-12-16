@@ -116,8 +116,24 @@
     span{
         padding: 2%;
     }
-    
+    table{
+      margin: 2%;
+      width: 97%;
+    }
+    .flotante{
+      float: right;
+    }
     </style>
+    <script>
+    function calculaTotal(precio,id){
+      var fila = document.getElementsByTagName("tr");
+      var columnas = fila[id+1].getElementsByTagName("td");
+      var input = columnas[2].getElementsByTagName("input");
+      console.log(input[0].value);
+      columnas[3].innerHTML=((Math.floor((input[0].value*precio)*100))/100+"€")
+
+    }
+    </script>
 </head>
 <body>
 
@@ -148,19 +164,25 @@
   </div>
 </nav>
 <div class="max-contenedor">
-  <table>
+  <form action="ServletGuardaCarrito" method="POST">
+  <table id="tabla">
     <th>Foto</th>
-    <th></th>
-    <th></th>
-
-
-  </table>
+    <th>Nombre</th>
+    <th>Cantidad</th>
+    <th>Total</th>
   <%for(int contador=0;contador<cartas.size();contador++){%>
-  <div class="carrito"><img src="<%=cartas.get(contador).getFoto()%>.jpg" class="imagenCarrito" alt=""><span><%=cartas.get(contador).getDescripcion()%></span>
-  <input type="number" name="cantidad[]" id="" value="<%=cartas.get(contador).getCantidad()%>"></div>
+    <tr id="<%=contador%>">
+      <td><img src="<%=cartas.get(contador).getFoto()%>.jpg" class="imagenCarrito" alt=""></td>
+      <td><%=cartas.get(contador).getDescripcion()%></td>
+      <td><input type="number" name="cantidad[]" id="cantidad[]" value="<%=cartas.get(contador).getCantidad()%>" onchange="calculaTotal(<%=cartas.get(contador).getPrecio()%>,<%=contador%>)"></td>
+      <td id="total"><%=cartas.get(contador).getCantidad()*cartas.get(contador).getPrecio()%>€</td>
+
+    </tr>
   <%}%>
-   
-</div>
+  
+</table>
+<input type="submit" class="flotante" value="Actualizar Carrito" class="btn btn-primary btn-success">
+</form>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
