@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -150,6 +151,41 @@ public class Bd {
      
         
     
+    return true;
+    }
+    public boolean pedido(List<Carta> carta,Usuario usuario){
+    Date fecha = new Date();
+    java.sql.Date fechasql = new java.sql.Date(fecha.getTime());
+    String sql = "Insert into pedidos(id_usuario,fecha_pedido) VALUES(?,?)";
+       try {
+           pst = conn.prepareStatement(sql);
+           pst.setInt(1, usuario.getId_usuario());
+           pst.setDate(2, fechasql);
+       } catch (SQLException ex) {
+           Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+       }
+    String sql2="SELECT * FROM pedidos where id_usuario="+usuario.getId_usuario()+" AND fecha_pedido='"+fechasql+"' ORDER BY id_pedido DESC LIMIT 1";
+       int id_pedido=0;
+    try {
+           pst = conn.prepareStatement(sql2);
+           pst.executeQuery();
+           rs.next();
+           id_pedido = rs.getInt(1);
+       } catch (SQLException ex) {
+           Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+       }
+    String sql3="INSERT INTO lineapedido VALUES(?,?,?)";
+    for(int contador=0;contador<carta.size();contador++){
+        try {
+            pst = conn.prepareStatement(sql3);
+            pst.setInt(1, id_pedido);
+            pst.setInt(2, carta.get(contador).getId());
+            pst.setInt(3, carta.get(contador).getCantidad());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     return true;
     }
 }

@@ -16,6 +16,10 @@
         <servlet-name>ServletCarrito</servlet-name>
         <servlet-class>controlador.ServletCarrito</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletGuardaCarrito</servlet-name>
+        <servlet-class>controlador.ServletGuardaCarrito</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletRegistro</servlet-name>
         <url-pattern>/ServletRegistro</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>ServletCarrito</servlet-name>
         <url-pattern>/ServletCarrito</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletGuardaCarrito</servlet-name>
+        <url-pattern>/ServletGuardaCarrito</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
