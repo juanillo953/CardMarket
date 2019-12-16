@@ -84,16 +84,20 @@
   <div id="navb" class="navbar-collapse collapse hide">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="principal.jsp">Home</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">Pedidos</a>
+        <a class="nav-link" href="principal.jsp">Pedidos</a>
       </li>
+      
     </ul>
 
     <ul class="nav navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="registrarse.jsp"><span class="fas fa-user"></span><%=usuario.getNombre()%></a>
+        <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
       </li>
     </ul>
   </div>

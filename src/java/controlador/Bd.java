@@ -62,6 +62,7 @@ public class Bd {
             pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
             while(rs.next()){
+                int id_usuario = rs.getInt(1);
                 String user = rs.getString(2);
                 String pass = rs.getString(3);
                 int perfil = rs.getInt(4);
@@ -69,7 +70,7 @@ public class Bd {
                 String apellidos = rs.getString(6);
                 String direccion = rs.getString(7);
                 String tarjeta = rs.getString(8);
-                Usuario usuario = new Usuario(user, pass, perfil, nombre, apellidos, direccion, tarjeta);
+                Usuario usuario = new Usuario(user, pass, perfil, nombre, apellidos, direccion, tarjeta,id_usuario);
                 usuarios.add(usuario);
                 }
 
@@ -92,7 +93,8 @@ public class Bd {
                 String descripcion=rs.getString(5);
                 int descuento=rs.getInt(6);
                 String texto = rs.getString(7);
-                Carta carta = new Carta(id, categoria, foto, precio, descripcion, descuento, texto);
+                int cantidad = 0;
+                Carta carta = new Carta(id, categoria, foto, precio, descripcion, descuento, texto, cantidad);
                 cartas.add(carta);
            
            }
@@ -114,7 +116,8 @@ public class Bd {
            String descripcion=rs.getString(5);
            int descuento=rs.getInt(6);
            String texto = rs.getString(7);
-           carta = new Carta(id, categoria, foto, precio, descripcion, descuento, texto);
+           int cantidad = 0;
+           carta = new Carta(id, categoria, foto, precio, descripcion, descuento, texto,cantidad);
        } catch (SQLException ex) {
            Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
        }
@@ -134,5 +137,19 @@ public class Bd {
            Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
        }
         return categoria;
+    }
+    public boolean editaUsuario(int id,String nombre,String apellidos,String direccion){
+        String sql = "Update usuarios SET nombre ='"+nombre+"',apellidos='"+apellidos+"',direccion='"+direccion+"' WHERE id_usuario ="+id;
+       try {
+           pst = conn.prepareStatement(sql);
+           pst.executeUpdate();
+       } catch (SQLException ex) {
+           Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+           return false;
+       }
+     
+        
+    
+    return true;
     }
 }

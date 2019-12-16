@@ -17,8 +17,9 @@ public class Carta {
     private String descripcion;
     private int descuento;
     private String texto;
+    private int cantidad;
 
-    public Carta(int id, int categoria, String foto, float precio, String descripcion, int descuento,String texto) {
+    public Carta(int id, int categoria, String foto, float precio, String descripcion, int descuento,String texto,int cantidad) {
         this.id = id;
         this.categoria = categoria;
         this.foto = foto;
@@ -26,8 +27,17 @@ public class Carta {
         this.descripcion = descripcion;
         this.descuento = descuento;
         this.texto = texto;
+        this.cantidad = cantidad;
+    }   
+
+    public int getCantidad() {
+        return cantidad;
     }
 
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    
     public String getTexto() {
         return texto;
     }

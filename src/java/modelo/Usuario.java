@@ -10,6 +10,7 @@ package modelo;
  * @author Alumno_2DAW
  */
 public class Usuario {
+    private int id_usuario;
     private String user;
     private String pass;
     private int perfil;
@@ -18,7 +19,7 @@ public class Usuario {
     private String direccion;
     private String tarjeta;
 
-    public Usuario(String user, String pass, int perfil, String nombre, String apellidos, String direccion, String tarjeta) {
+    public Usuario(String user, String pass, int perfil, String nombre, String apellidos, String direccion, String tarjeta,int id_usuario) {
         this.user = user;
         this.pass = pass;
         this.perfil = perfil;
@@ -26,6 +27,15 @@ public class Usuario {
         this.apellidos = apellidos;
         this.direccion = direccion;
         this.tarjeta = tarjeta;
+        this.id_usuario = id_usuario;
+    }
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public String getNombre() {
