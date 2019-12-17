@@ -99,6 +99,9 @@
       <li class="nav-item">
         <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="ServletDesloguea"><span class="fas fa-sign-out-alt"></span></a>
+      </li>
     </ul>
   </div>
 </nav>

@@ -7,7 +7,11 @@ package controlador;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -77,12 +81,33 @@ public class ServletGuardaCarrito extends HttpServlet {
             throws ServletException, IOException {
         RequestDispatcher rd;
         String[]cantidad= request.getParameterValues("cantidad[]");
+        String totalAdquirido = request.getParameter("totalAdquirido");
         HttpSession sesion = request.getSession();
         Usuario usuario = (Usuario)sesion.getAttribute("usuario");
         List<Carta> cartas = (List)sesion.getAttribute("carrito");
         for(int contador=0;contador<cartas.size();contador++){
             cartas.get(contador).setCantidad(Integer.parseInt(cantidad[contador]));
         }
+        Bd bd = new Bd();
+        try {
+            bd.abrirConexion();
+            boolean correcto = bd.pedido(cartas, usuario,totalAdquirido);
+            if(correcto){
+                cartas = new ArrayList<Carta>();
+                sesion.setAttribute("carrito", cartas);
+                rd = request.getRequestDispatcher("/pedidoCorrecto.jsp");
+                rd.forward(request, response);
+            }
+            else{
+                rd = request.getRequestDispatcher("/principal.jsp");
+                rd.forward(request, response);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServletGuardaCarrito.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ServletGuardaCarrito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
     }
 

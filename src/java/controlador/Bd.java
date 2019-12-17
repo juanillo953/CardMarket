@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -153,26 +154,33 @@ public class Bd {
     
     return true;
     }
-    public boolean pedido(List<Carta> carta,Usuario usuario){
+    public boolean pedido(List<Carta> carta,Usuario usuario,String totalAdquirido){
     Date fecha = new Date();
     java.sql.Date fechasql = new java.sql.Date(fecha.getTime());
-    String sql = "Insert into pedidos(id_usuario,fecha_pedido) VALUES(?,?)";
+        SimpleDateFormat fechaString = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaFinal = fechaString.format(fechasql);
+    String sql = "Insert into pedidos(id_usuario,fecha_pedido,precio_total) VALUES(?,?,?)";
+    float total = Float.parseFloat(totalAdquirido);
        try {
            pst = conn.prepareStatement(sql);
            pst.setInt(1, usuario.getId_usuario());
            pst.setDate(2, fechasql);
+           pst.setFloat(3, total);
+           pst.executeUpdate();
        } catch (SQLException ex) {
            Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+           return false;
        }
-    String sql2="SELECT * FROM pedidos where id_usuario="+usuario.getId_usuario()+" AND fecha_pedido='"+fechasql+"' ORDER BY id_pedido DESC LIMIT 1";
+    String sql2="SELECT * FROM pedidos where id_usuario="+usuario.getId_usuario()+" AND fecha_pedido='"+fechaFinal+"' ORDER BY id_pedido DESC LIMIT 1";
        int id_pedido=0;
     try {
            pst = conn.prepareStatement(sql2);
-           pst.executeQuery();
+           rs = pst.executeQuery();
            rs.next();
            id_pedido = rs.getInt(1);
        } catch (SQLException ex) {
            Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+           return false;
        }
     String sql3="INSERT INTO lineapedido VALUES(?,?,?)";
     for(int contador=0;contador<carta.size();contador++){
@@ -184,6 +192,7 @@ public class Bd {
             pst.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     return true;

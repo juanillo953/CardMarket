@@ -126,13 +126,23 @@
     }
     </style>
     <script>
-    function calculaTotal(precio,id){
+    function calculaTotal(precio,id,descuento){
       var fila = document.getElementsByTagName("tr");
       var columnas = fila[id+1].getElementsByTagName("td");
       var input = columnas[2].getElementsByTagName("input");
-      console.log(input[0].value);
-      columnas[3].innerHTML=((Math.floor((input[0].value*precio)*100))/100+"€")
+      columnas[3].innerHTML=((Math.floor((input[0].value*(precio*((100-descuento)/100)))*100))/100+"€");
+      var sumatorio = 0;
 
+      for(var contador=1;contador<fila.length-1;contador++){
+        var columnas2 = fila[contador].getElementsByTagName("td");
+        console.log(columnas2[3]);
+        var valor = columnas2[3].innerHTML;
+        valor = valor.substr(0,valor.length-1);
+        console.log(valor);
+        valor = parseFloat(valor);
+        sumatorio+=valor;
+      }
+      document.getElementById("totalT").innerHTML=((Math.floor(sumatorio*100))/100)+"€";
     }
     </script>
 </head>
@@ -161,6 +171,9 @@
       <li class="nav-item">
         <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="ServletDesloguea"><span class="fas fa-sign-out-alt"></span></a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -171,19 +184,30 @@
     <th>Nombre</th>
     <th>Cantidad</th>
     <th>Total</th>
-  <%for(int contador=0;contador<cartas.size();contador++){%>
+    <%float cuentaInicial =0;%>
+  <%for(int contador=0;contador<cartas.size();contador++){ %>
+    
+    
     <tr id="<%=contador%>">
       <td><img src="<%=cartas.get(contador).getFoto()%>.jpg" class="imagenCarrito" alt=""></td>
       <td><%=cartas.get(contador).getDescripcion()%></td>
-      <td><input type="number" name="cantidad[]" id="cantidad[]" value="<%=cartas.get(contador).getCantidad()%>" onchange="calculaTotal(<%=cartas.get(contador).getPrecio()%>,<%=contador%>)"></td>
-      <td id="total"><%=cartas.get(contador).getCantidad()*cartas.get(contador).getPrecio()%>€</td>
-
+      <td><input type="number" name="cantidad[]" id="cantidad[]" value="<%=cartas.get(contador).getCantidad()%>" onchange="calculaTotal(<%=cartas.get(contador).getPrecio()%>,<%=contador%>,<%=cartas.get(contador).getDescuento()%>)"></td>
+      <td id="total"><%=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100%>€</td>
+      <%cuentaInicial+=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100;%>
     </tr>
   <%}%>
+  <tr>
+    <td><h3>Total Pedido</h3></td>
+    <td></td>
+    <td></td>
+    <td><h3 id="totalT"><%=cuentaInicial%>€</h3></td>
+  </tr>
   
 </table>
+<input type="text" name="totalAdquirido" class="invisible" value=<%=cuentaInicial%> id="">
 <input type="submit" value="Hacer pedido" class="btn btn-primary btn-success flotante">
 </form>
+</div>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

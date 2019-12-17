@@ -1,14 +1,17 @@
-<%-- 
-    Document   : principal
-    Created on : 12-dic-2019, 9:07:07
-    Author     : Alumno_2DAW
---%>
-
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.List"%>
+<%@page import="modelo.Carta"%>
+<%@page import="controlador.Bd"%>
 <%@page import="modelo.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-    
+    Date fecha = new Date();
+    SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat formateador2 = new SimpleDateFormat("kk:mm:ss");
+    String fechaF = formateador.format(fecha);
+    String hora = formateador2.format(fecha);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +23,7 @@
     <style>
     .max-contenedor{
         position: relative;
-        background-image: url("./imagenes/fondo.jpg");
+        background: rgba(255, 255, 255, 0.788);
         width: 95%;
         border: 1px solid black;
         border-radius:20px ;
@@ -51,15 +54,17 @@
       color:rgb(173, 6, 6);
 
     }
-
+    .rojo{
+        color:red;
+    }
     body{
         background-image: url("./imagenes/fondo");
     }
-    img{
-      width: 90%;
-    }
     body{
       background-image: url("./imagenes/black.jpg");
+    }
+    .nombre{
+        padding-bottom:2%;
     }
     .busqueda{
       width: 98%;
@@ -70,7 +75,36 @@
       margin-top:1%;
       background: rgba(255, 255, 255, 0.753);
     }
+    .izquierda{
+        display: inline-block;
+        top:0;
+        width: 30%;
+        padding: 4%;
+    }
+    .derecha{
+        display:inline-block;
+        flex-direction:column;
+        padding: 4%;
+        width: 58%;
 
+    }
+    .tachado{
+        text-decoration: line-through;
+    }
+    h5,h6{
+        margin:2%;
+    }
+    .invisible{
+      display: none;
+    }
+    .mid{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.76);
+        border-radius:20px;
+    }
     </style>
 </head>
 <body>
@@ -89,12 +123,11 @@
       <li class="nav-item active">
         <a class="nav-link" href="principal.jsp">Pedidos</a>
       </li>
-      
     </ul>
 
     <ul class="nav navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
+                      <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
@@ -105,17 +138,11 @@
     </ul>
   </div>
 </nav>
+
 <div class="max-contenedor">
-    <div class="busqueda"></div>
-    <div class="interior-contenedor"><a href="muestraArticulos.jsp?cat=1"><img src="./imagenes/fayden.jpg" alt=""><br><strong class="medio">Masterpiece</strong></a></div>
-    <div class="interior-contenedor"><a href="muestraArticulos.jsp?cat=2"><img src="./imagenes/kiran.jpg" alt=""><br><strong class="medio">Míticas</strong></a></div>
-    <div class="interior-contenedor"><a href="muestraArticulos.jsp?cat=3"><img src="./imagenes/gadwick.jpg" alt=""><br><strong class="medio">Raras</strong></a></div>
-    <div class="interior-contenedor"><a href="muestraArticulos.jsp?cat=4"><img src="./imagenes/jeleva.jpg" alt=""><br><strong class="medio">Especiales</strong></a></div>
-    <div class="interior-contenedor"><a href="muestraArticulos.jsp?cat=5"><img src="./imagenes/mist.jpg" alt=""><br><strong class="medio">Poco Comunes</strong></a></div>
-    <div class="interior-contenedor"><a href="muestraArticulos.jsp?cat=6"><img src="./imagenes/genji.jpg" alt=""><br><strong class="medio">Comunes</strong></a></div>
-    <div class="interior-contenedor"><a href="muestraArticulos.jsp?cat=7"><img src="./imagenes/isla.jpg" alt=""><br><strong class="medio">Tierras</strong></a></div>
-    <div class="interior-contenedor"><a href="muestraArticulos.jsp?cat=8"><img src="./imagenes/humano.jpg" alt=""><br><strong class="medio">Fichas</strong></a></div>
+    <div class="mid"><h1>Su pedido se ha tramitado correctamente a <%=hora%> del <%=fechaF%></h1></div>
 </div>
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
