@@ -1,3 +1,4 @@
+<%@page import="modelo.Pedido"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
@@ -7,11 +8,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-    Date fecha = new Date();
-    SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat formateador2 = new SimpleDateFormat("kk:mm:ss");
-    String fechaF = formateador.format(fecha);
-    String hora = formateador2.format(fecha);
+    Bd bd = new Bd();
+    bd.abrirConexion();
+    List<Pedido> pedidos = bd.obtenerPedidos(usuario.getId_usuario());
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,6 +104,19 @@
         background: rgba(255, 255, 255, 0.76);
         border-radius:20px;
     }
+    table{
+        width: 100%;
+    }
+    td{
+        padding: 2%;
+        font-size: 1.3em;
+    }
+    th{
+        padding: 2%;
+    }
+    tr{
+        text-align: center;
+    }
     </style>
 </head>
 <body>
@@ -140,7 +152,21 @@
 </nav>
 
 <div class="max-contenedor">
-    <div class="mid"><h1>Su pedido se ha tramitado correctamente a <%=hora%> del <%=fechaF%></h1></div>
+    <table>
+        <tr>
+        <th>Fecha de pedido</th>
+        <th>Precio total del pedido</th>
+        <th>Ver detalles Articulos</th>
+        </tr>
+       <%for(int contador =0;contador<pedidos.size();contador++){%> 
+        <tr>
+            <td><%=pedidos.get(contador).getFecha_pedido()%></td>
+            <td><%=pedidos.get(contador).getPrecio()%>€</td>
+            <td><a class="btn btn-primary" href="./ServletVerPedido?id=<%=pedidos.get(contador).getId_pedido()%>">Ver</a></td>
+
+        </tr>
+       <%}%>
+    </table>
 </div>
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">

@@ -87,7 +87,7 @@
         <a class="nav-link" href="principal.jsp">Home</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="principal.jsp">Pedidos</a>
+        <a class="nav-link" href="mostrarPedido.jsp">Pedidos</a>
       </li>
       
     </ul>
