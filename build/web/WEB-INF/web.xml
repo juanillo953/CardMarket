@@ -24,6 +24,10 @@
         <servlet-name>ServletDesloguea</servlet-name>
         <servlet-class>controlador.ServletDesloguea</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletVerPedido</servlet-name>
+        <servlet-class>controlador.ServletVerPedido</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletRegistro</servlet-name>
         <url-pattern>/ServletRegistro</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>ServletDesloguea</servlet-name>
         <url-pattern>/ServletDesloguea</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletVerPedido</servlet-name>
+        <url-pattern>/ServletVerPedido</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

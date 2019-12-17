@@ -218,4 +218,26 @@ public class Bd {
        }
         return pedidos;
     }
+    public List<Carta> obtenerProductosDeUnPedido(int id){
+        List<Carta> cartas = new ArrayList<Carta>();
+        String sql = "SELECT lineapedido.*,productos.* from lineapedido,productos WHERE lineapedido.id_prod = productos.id_prod AND id_pedido="+id;
+       try {
+           pst = conn.prepareStatement(sql);
+           rs = pst.executeQuery();
+           while(rs.next()){
+           int id_prod= rs.getInt(2);
+           int categoria=rs.getInt(5);
+           String foto=rs.getString(6);
+           float precio=rs.getFloat(7);
+           String descripcion=rs.getString(8);
+           int descuento=rs.getInt(9);
+           String texto = rs.getString(10);
+           int cantidad = rs.getInt(3);
+           }
+       } catch (SQLException ex) {
+           Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        
+        return null;
+    }
 }
