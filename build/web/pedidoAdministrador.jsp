@@ -1,9 +1,6 @@
-<%-- 
-    Document   : detallePedido
-    Created on : 17-dic-2019, 10:54:23
-    Author     : Alumno_2DAW
---%>
-
+<%@page import="modelo.Pedido"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
 <%@page import="modelo.Carta"%>
 <%@page import="controlador.Bd"%>
@@ -11,14 +8,24 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-    RequestDispatcher rd;
+        RequestDispatcher rd;
     if(usuario ==null){
         rd= request.getRequestDispatcher("/index.html");
         rd.forward(request, response);
     }
-    Bd bd = new Bd();
+     Bd bd = new Bd();
     bd.abrirConexion();
-    List<Carta> cartas = bd.obtenerProductosDeUnPedido(Integer.parseInt(request.getParameter("id")));
+    List<Pedido> pedidos = null;
+    if(request.getParameter("inicial")!=null){
+        String fechaInicial = request.getParameter("inicial");
+        String fechaFinal = request.getParameter("final");
+        pedidos = bd.obtenerTodosLosPedidosEntreFecha(fechaInicial, fechaFinal);
+    }
+    else{
+        pedidos = bd.obtenerTodosLosPedidos();
+    }
+   
+   
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,30 +111,37 @@
     .invisible{
       display: none;
     }
-    .carrito{
-      width: 85%;
-      background: rgba(255, 255, 255, 0.774);
-    }
-    .imagenCarrito{
-      padding: 2%;
-      display: inline-block;
-      width: 10%;
-
-    }
-    .contadorCarrito{
-      width: 20%;
-
-    }
-    span{
-        padding: 2%;
+    .mid{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.76);
+        border-radius:20px;
     }
     table{
-      margin: 2%;
-      width: 97%;
+        width: 100%;
     }
-    .flotante{
-      float: right;
-      margin-top:1%;
+    td{
+        padding: 2%;
+        font-size: 1.3em;
+    }
+    th{
+        padding: 2%;
+    }
+    tr{
+        text-align: center;
+    }
+    form{
+      margin: 2%;
+      text-align: center;
+      display: block;
+    }
+    input{
+      border-radius: 5px;
+    }
+    label{
+      font-weight: bold;
     }
     </style>
 </head>
@@ -144,7 +158,6 @@
       <li class="nav-item active">
         <a class="nav-link" href="principal.jsp">Home</a>
       </li>
-    
       <%if(usuario.getPerfil()==0){%>
         <li class="nav-item active">
           <a class="nav-link" href="mostrarPedido.jsp">Pedidos</a>
@@ -177,34 +190,34 @@
     </ul>
   </div>
 </nav>
-<div class="max-contenedor">
-  <table id="tabla">
-    <th>Foto</th>
-    <th>Nombre</th>
-    <th>Cantidad</th>
-    <th>Total</th>
-    <%float cuentaInicial =0;%>
-  <%for(int contador=0;contador<cartas.size();contador++){ %>
-    
-    
-    <tr id="<%=contador%>">
-      <td><img src="<%=cartas.get(contador).getFoto()%>.jpg" class="imagenCarrito" alt=""></td>
-      <td><%=cartas.get(contador).getDescripcion()%></td>
-      <td><%=cartas.get(contador).getCantidad()%></td>
-      <td id="total"><%=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100%>€</td>
-      <%cuentaInicial+=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100;%>
-    </tr>
-  <%}%>
-  <tr>
-    <td><h3>Total Pedido</h3></td>
-    <td></td>
-    <td></td>
-    <td><h3 id="totalT"><%=(Math.floor(cuentaInicial*100))/100%>€</h3></td>
-    </tr>
-  
-</table>
 
+<div class="max-contenedor">
+  <form action="./pedidoAdministrador.jsp" method="get">
+    <label for="inicial">Fecha inicial:</label>
+    <input type="date" name="inicial">
+    <label for="final">Fecha final:</label>
+    <input type="date" name="final"> 
+    <input class="btn btn-info" type="submit" value="Buscar">
+  </form>
+    <table>
+        <tr>
+        <th>Id del usuario</th>
+        <th>Fecha de pedido</th>
+        <th>Precio total del pedido</th>
+        <th>Ver detalles Articulos</th>
+        </tr>
+       <%for(int contador =0;contador<pedidos.size();contador++){%> 
+        <tr>
+            <td><%=pedidos.get(contador).getId_usuario()%></td>
+            <td><%=pedidos.get(contador).getFecha_pedido()%></td>
+            <td><%=pedidos.get(contador).getPrecio()%>€</td>
+            <td><a class="btn btn-primary" href="./detallePedido.jsp?id=<%=pedidos.get(contador).getId_pedido()%>">Ver</a></td>
+
+        </tr>
+       <%}%>
+    </table>
 </div>
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

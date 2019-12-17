@@ -242,4 +242,45 @@ public class Bd {
         
         return cartas;
     }
+    public List<Pedido> obtenerTodosLosPedidos(){
+        List<Pedido> pedidos = new ArrayList<Pedido>();
+        String sql = "SELECT * FROM pedidos";
+       try {
+           pst = conn.prepareStatement(sql);
+           rs = pst.executeQuery();
+           while(rs.next()){
+                int id_pedido = rs.getInt(1);
+                int id_usuario = rs.getInt(2);
+                java.sql.Date fecha_pedido = rs.getDate(3);
+                float precio = rs.getFloat(4);
+                Pedido pedido = new Pedido(id_pedido, id_usuario, fecha_pedido, precio);
+                pedidos.add(pedido);
+           
+           }
+       } catch (SQLException ex) {
+           Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        return pedidos;
+    }
+    public List<Pedido> obtenerTodosLosPedidosEntreFecha(String inicial,String Fechafinal){
+        List<Pedido> pedidos = new ArrayList<Pedido>();
+        String sql = "SELECT * FROM pedidos WHERE fecha_pedido BETWEEN '"+inicial+"' AND '"+Fechafinal+"'";
+       try {
+           pst = conn.prepareStatement(sql);
+           rs = pst.executeQuery();
+           while(rs.next()){
+                int id_pedido = rs.getInt(1);
+                int id_usuario = rs.getInt(2);
+                java.sql.Date fecha_pedido = rs.getDate(3);
+                float precio = rs.getFloat(4);
+                Pedido pedido = new Pedido(id_pedido, id_usuario, fecha_pedido, precio);
+                pedidos.add(pedido);
+           
+           }
+       } catch (SQLException ex) {
+           Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        return pedidos;
+    }
+    
 }

@@ -8,8 +8,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-        RequestDispatcher rd;
-    if(usuario ==null){
+    RequestDispatcher rd;
+    if(usuario==null){
         rd= request.getRequestDispatcher("/index.html");
         rd.forward(request, response);
     }
@@ -90,6 +90,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="principal.jsp">Home</a>
       </li>
+      <%if(usuario.getPerfil()==0){%>
       <li class="nav-item active">
         <a class="nav-link" href="mostrarPedido.jsp">Pedidos</a>
       </li>
@@ -103,6 +104,18 @@
       <li class="nav-item">
         <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
       </li>
+      <%}else{%>
+        <li class="nav-item active">
+          <a class="nav-link" href="pedidoAdministrador.jsp">Pedidos</a>
+        </li>
+
+      </ul>
+
+      <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
+        </li>
+      <%}%>
       <li class="nav-item">
         <a class="nav-link" href="ServletDesloguea"><span class="fas fa-sign-out-alt"></span></a>
       </li>
