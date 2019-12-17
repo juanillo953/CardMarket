@@ -7,11 +7,7 @@ package controlador;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,13 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import modelo.Carta;
-import modelo.Usuario;
 
 /**
  *
  * @author Alumno_2DAW
  */
-public class ServletGuardaCarrito extends HttpServlet {
+public class ServletEliminaArticulo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +39,10 @@ public class ServletGuardaCarrito extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServletGuardaCarrito</title>");            
+            out.println("<title>Servlet ServletEliminaArticulo</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletGuardaCarrito at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ServletEliminaArticulo at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,7 +60,19 @@ public class ServletGuardaCarrito extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        RequestDispatcher rd;
+        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession sesion = request.getSession();
+        List<Carta> cartas = (List)sesion.getAttribute("carrito");
+        for(int contador=0;contador<cartas.size();contador++){
+            if(cartas.get(contador).getId()==id){
+                cartas.remove(contador);
+            }
+        }
+        sesion.setAttribute("carrito", cartas);
+        rd = request.getRequestDispatcher("/carrito.jsp");
+        rd.forward(request, response);
+
     }
 
     /**
@@ -79,46 +86,7 @@ public class ServletGuardaCarrito extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher rd;
-        String[]cantidad= request.getParameterValues("cantidad[]");
-        String totalAdquirido = request.getParameter("totalAdquirido");
-        HttpSession sesion = request.getSession();
-        Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-        List<Carta> cartas = (List)sesion.getAttribute("carrito");
-        if(cartas.size()==0){
-            sesion.setAttribute("Carro", "El carro esta vacio");
-            rd = request.getRequestDispatcher("/carrito.jsp");
-            rd.forward(request, response);
-        }
-        for(int contador=0;contador<cartas.size();contador++){
-            cartas.get(contador).setCantidad(Integer.parseInt(cantidad[contador]));
-        }
-        sesion.setAttribute("carrito", cartas);
-        sesion.setAttribute("totalAdquirido", totalAdquirido);
-        rd = request.getRequestDispatcher("/pago.jsp");
-        rd.forward(request, response);
-             
-        /*Bd bd = new Bd();
-        try {
-            bd.abrirConexion();
-            boolean correcto = bd.pedido(cartas, usuario,totalAdquirido);
-            if(correcto){
-                cartas = new ArrayList<Carta>();
-                sesion.setAttribute("carrito", cartas);
-                rd = request.getRequestDispatcher("/pedidoCorrecto.jsp");
-                rd.forward(request, response);
-            }
-            else{
-                rd = request.getRequestDispatcher("/principal.jsp");
-                rd.forward(request, response);
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ServletGuardaCarrito.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServletGuardaCarrito.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
-        
+        processRequest(request, response);
     }
 
     /**

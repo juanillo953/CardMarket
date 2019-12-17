@@ -25,7 +25,7 @@ import modelo.Usuario;
  *
  * @author Alumno_2DAW
  */
-public class ServletGuardaCarrito extends HttpServlet {
+public class ServletContrareembolso extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +44,10 @@ public class ServletGuardaCarrito extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ServletGuardaCarrito</title>");            
+            out.println("<title>Servlet ServletContrareembolso</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ServletGuardaCarrito at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ServletContrareembolso at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,40 +65,13 @@ public class ServletGuardaCarrito extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        RequestDispatcher rd;
-        String[]cantidad= request.getParameterValues("cantidad[]");
-        String totalAdquirido = request.getParameter("totalAdquirido");
+                RequestDispatcher rd;
         HttpSession sesion = request.getSession();
         Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-        List<Carta> cartas = (List)sesion.getAttribute("carrito");
-        if(cartas.size()==0){
-            sesion.setAttribute("Carro", "El carro esta vacio");
-            rd = request.getRequestDispatcher("/carrito.jsp");
-            rd.forward(request, response);
-        }
-        for(int contador=0;contador<cartas.size();contador++){
-            cartas.get(contador).setCantidad(Integer.parseInt(cantidad[contador]));
-        }
-        sesion.setAttribute("carrito", cartas);
-        sesion.setAttribute("totalAdquirido", totalAdquirido);
-        rd = request.getRequestDispatcher("/pago.jsp");
-        rd.forward(request, response);
-             
-        /*Bd bd = new Bd();
+        List<Carta> cartas =(List)sesion.getAttribute("carrito");
+        String totalAdquirido = (String)sesion.getAttribute("totalAdquirido");
+        
+        Bd bd = new Bd();
         try {
             bd.abrirConexion();
             boolean correcto = bd.pedido(cartas, usuario,totalAdquirido);
@@ -116,10 +89,21 @@ public class ServletGuardaCarrito extends HttpServlet {
             Logger.getLogger(ServletGuardaCarrito.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ServletGuardaCarrito.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
-        
     }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+}
 
     /**
      * Returns a short description of the servlet.

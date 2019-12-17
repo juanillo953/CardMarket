@@ -24,6 +24,18 @@
         <servlet-name>ServletDesloguea</servlet-name>
         <servlet-class>controlador.ServletDesloguea</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletEliminaArticulo</servlet-name>
+        <servlet-class>controlador.ServletEliminaArticulo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletGuardaTarjetaYValidaPedido</servlet-name>
+        <servlet-class>controlador.ServletGuardaTarjetaYValidaPedido</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServletContrareembolso</servlet-name>
+        <servlet-class>controlador.ServletContrareembolso</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletRegistro</servlet-name>
         <url-pattern>/ServletRegistro</url-pattern>
@@ -47,6 +59,18 @@
     <servlet-mapping>
         <servlet-name>ServletDesloguea</servlet-name>
         <url-pattern>/ServletDesloguea</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletEliminaArticulo</servlet-name>
+        <url-pattern>/ServletEliminaArticulo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletGuardaTarjetaYValidaPedido</servlet-name>
+        <url-pattern>/ServletGuardaTarjetaYValidaPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletContrareembolso</servlet-name>
+        <url-pattern>/ServletContrareembolso</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

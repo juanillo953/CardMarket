@@ -282,5 +282,17 @@ public class Bd {
        }
         return pedidos;
     }
+    public boolean agregaTarjeta(String tarjeta,int id){
+    String sql = "UPDATE usuarios set tarjeta ='"+tarjeta+"' WHERE id_usuario="+id;
+       try {
+           pst=conn.prepareStatement(sql);
+           pst.executeUpdate();
+       } catch (SQLException ex) {
+           Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
+           return false;
+       }
+    
+    return true;
+    }
     
 }

@@ -1,9 +1,6 @@
-<%-- 
-    Document   : carrito
-    Created on : 16-dic-2019, 9:45:15
-    Author     : Alumno_2DAW
---%>
-
+<%@page import="modelo.Pedido"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
 <%@page import="modelo.Carta"%>
 <%@page import="controlador.Bd"%>
@@ -11,14 +8,24 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-    RequestDispatcher rd;
-        if(usuario ==null){
+        RequestDispatcher rd;
+    if(usuario ==null){
         rd= request.getRequestDispatcher("/index.html");
         rd.forward(request, response);
     }
-    Bd bd = new Bd();
+     Bd bd = new Bd();
     bd.abrirConexion();
-    List<Carta> cartas = (List)sesion.getAttribute("carrito");
+    List<Pedido> pedidos = null;
+    if(request.getParameter("inicial")!=null){
+        String fechaInicial = request.getParameter("inicial");
+        String fechaFinal = request.getParameter("final");
+        pedidos = bd.obtenerTodosLosPedidosEntreFecha(fechaInicial, fechaFinal);
+    }
+    else{
+        pedidos = bd.obtenerTodosLosPedidos();
+    }
+   
+   
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,58 +105,39 @@
     .tachado{
         text-decoration: line-through;
     }
-    h3,h5,h6{
+    h5,h6{
         margin:2%;
     }
     .invisible{
       display: none;
     }
-    .carrito{
-      width: 85%;
-      background: rgba(255, 255, 255, 0.774);
+    .mid{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.76);
+        border-radius:20px;
     }
-    .imagenCarrito{
-      padding: 2%;
-      display: inline-block;
-      width: 10%;
-
+    .metodos{
+        width: 70%;
+        display: block;
+        margin-left:14.5%;
     }
-    .contadorCarrito{
-      width: 20%;
-
+    h1{
+        display:inline-block;
+        width: 70%;
     }
     span{
-        padding: 2%;
+        display:inline-block;
+        font-size: 1.7em;
+        width: 3%;
+        margin-right: 1%;
     }
-    table{
-      margin: 2%;
-      width: 97%;
-    }
-    .flotante{
-      float: right;
-      margin-top:1%;
+    .metodos:hover{
+        transform: scale(1.2);
     }
     </style>
-    <script>
-    function calculaTotal(precio,id,descuento){
-      var fila = document.getElementsByTagName("tr");
-      var columnas = fila[id+1].getElementsByTagName("td");
-      var input = columnas[2].getElementsByTagName("input");
-      columnas[3].innerHTML=((Math.floor((input[0].value*(precio*((100-descuento)/100)))*100))/100+"€");
-      var sumatorio = 0;
-
-      for(var contador=1;contador<fila.length-1;contador++){
-        var columnas2 = fila[contador].getElementsByTagName("td");
-        console.log(columnas2[3]);
-        var valor = columnas2[3].innerHTML;
-        valor = valor.substr(0,valor.length-1);
-        console.log(valor);
-        valor = parseFloat(valor);
-        sumatorio+=valor;
-      }
-      document.getElementById("totalT").innerHTML=((Math.floor(sumatorio*100))/100)+"€";
-    }
-    </script>
 </head>
 <body>
 
@@ -164,59 +152,44 @@
       <li class="nav-item active">
         <a class="nav-link" href="principal.jsp">Home</a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="mostrarPedido.jsp">Pedidos</a>
-      </li>
-    </ul>
-
-    <ul class="nav navbar-nav ml-auto">
-      <li class="nav-item">
-                      <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
-      </li>
+      <%if(usuario.getPerfil()==0){%>
+        <li class="nav-item active">
+          <a class="nav-link" href="mostrarPedido.jsp">Pedidos</a>
+        </li>
+        
+      </ul>
+  
+      <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="carrito.jsp"><span class="fas fa-shopping-cart"></span></a>
+        </li>
+        <%}else{%>
+          <li class="nav-item active">
+            <a class="nav-link" href="pedidoAdministrador.jsp">Pedidos</a>
+          </li>
+  
+        </ul>
+  
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="actualizaDatos.jsp"><span class="fas fa-user"></span> <%=usuario.getNombre()%> <%=usuario.getApellidos()%></a>
+          </li>
+        <%}%>
       <li class="nav-item">
         <a class="nav-link" href="ServletDesloguea"><span class="fas fa-sign-out-alt"></span></a>
       </li>
     </ul>
   </div>
 </nav>
+
 <div class="max-contenedor">
-    <%if(sesion.getAttribute("Carro")!=null){%>
-    <h3 class="rojo"><%=sesion.getAttribute("Carro")%></h3><%}%>
-    <%sesion.setAttribute("Carro",null);%>
-  <form action="ServletGuardaCarrito" method="POST">
-  <table id="tabla">
-    <th>Foto</th>
-    <th>Nombre</th>
-    <th>Cantidad</th>
-    <th>Total</th>
-    <%float cuentaInicial =0;%>
-  <%for(int contador=0;contador<cartas.size();contador++){ %>
-    
-    
-    <tr id="<%=contador%>">
-      <td><img src="<%=cartas.get(contador).getFoto()%>.jpg" class="imagenCarrito" alt=""></td>
-      <td><%=cartas.get(contador).getDescripcion()%></td>
-      <td><input type="number" name="cantidad[]" id="cantidad[]" value="<%=cartas.get(contador).getCantidad()%>" onchange="calculaTotal(<%=cartas.get(contador).getPrecio()%>,<%=contador%>,<%=cartas.get(contador).getDescuento()%>)"></td>
-      <td id="total"><%=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100%>€</td>
-      <%cuentaInicial+=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100;%>
-      <td><a href="ServletEliminaArticulo?id=<%=cartas.get(contador).getId()%>" class="far fa-trash-alt"></a></td>
-    </tr>
-  <%}%>
-  <tr>
-    <td><h3>Total Pedido</h3></td>
-    <td></td>
-    <td></td>
-    <td><h3 id="totalT"><%=cuentaInicial%>€</h3></td>
-  </tr>
-  
-</table>
-<input type="text" name="totalAdquirido" class="invisible" value=<%=cuentaInicial%> id="">
-<input type="submit" value="Hacer pedido" class="btn btn-primary btn-success flotante">
-</form>
+<div class="metodos btn btn-warning"><a href="./tarjeta.jsp"><span class="fas fa-credit-card"></span><h1>Pagar con tarjeta</h1></a></div>
+<div class="metodos btn btn-warning"><a href="./ServletContrareembolso"><span class="fas fa-money-bill"></span><h1>Pagar Contrareembolso</h1></a></div>
 </div>
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
