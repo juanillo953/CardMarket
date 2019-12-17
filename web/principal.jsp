@@ -8,7 +8,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-    
+        RequestDispatcher rd;
+    if(usuario ==null){
+        rd= request.getRequestDispatcher("/index.html");
+        rd.forward(request, response);
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">

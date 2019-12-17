@@ -7,6 +7,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
+        RequestDispatcher rd;
+    if(usuario ==null){
+        rd= request.getRequestDispatcher("/index.html");
+        rd.forward(request, response);
+    }
     Date fecha = new Date();
     SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat formateador2 = new SimpleDateFormat("kk:mm:ss");

@@ -8,6 +8,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
+        RequestDispatcher rd;
+    if(usuario ==null){
+        rd= request.getRequestDispatcher("/index.html");
+        rd.forward(request, response);
+    }
     Bd bd = new Bd();
     bd.abrirConexion();
     List<Pedido> pedidos = bd.obtenerPedidos(usuario.getId_usuario());
@@ -162,7 +167,7 @@
         <tr>
             <td><%=pedidos.get(contador).getFecha_pedido()%></td>
             <td><%=pedidos.get(contador).getPrecio()%>€</td>
-            <td><a class="btn btn-primary" href="./ServletVerPedido?id=<%=pedidos.get(contador).getId_pedido()%>">Ver</a></td>
+            <td><a class="btn btn-primary" href="./detallePedido.jsp?id=<%=pedidos.get(contador).getId_pedido()%>">Ver</a></td>
 
         </tr>
        <%}%>

@@ -59,6 +59,7 @@ public class ServletVerPedido extends HttpServlet {
             throws ServletException, IOException {
         RequestDispatcher rd;
         int id = Integer.parseInt(request.getParameter("id"));
+        Bd bd = new Bd()
     }
 
     /**

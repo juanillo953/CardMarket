@@ -233,11 +233,13 @@ public class Bd {
            int descuento=rs.getInt(9);
            String texto = rs.getString(10);
            int cantidad = rs.getInt(3);
+           Carta carta = new Carta(id, categoria, foto, precio, descripcion, descuento, texto, cantidad);
+           cartas.add(carta);
            }
        } catch (SQLException ex) {
            Logger.getLogger(Bd.class.getName()).log(Level.SEVERE, null, ex);
        }
         
-        return null;
+        return cartas;
     }
 }

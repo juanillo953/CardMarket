@@ -11,6 +11,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
+    RequestDispatcher rd;
+        if(usuario ==null){
+        rd= request.getRequestDispatcher("/index.html");
+        rd.forward(request, response);
+    }
     Bd bd = new Bd();
     bd.abrirConexion();
     Carta carta= bd.obtenerCarta(Integer.parseInt(request.getParameter("id")));

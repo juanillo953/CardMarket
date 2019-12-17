@@ -1,6 +1,9 @@
-<%@page import="modelo.Pedido"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Date"%>
+<%-- 
+    Document   : detallePedido
+    Created on : 17-dic-2019, 10:54:23
+    Author     : Alumno_2DAW
+--%>
+
 <%@page import="java.util.List"%>
 <%@page import="modelo.Carta"%>
 <%@page import="controlador.Bd"%>
@@ -8,14 +11,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%  HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");
-        RequestDispatcher rd;
+    RequestDispatcher rd;
     if(usuario ==null){
         rd= request.getRequestDispatcher("/index.html");
         rd.forward(request, response);
     }
     Bd bd = new Bd();
     bd.abrirConexion();
-    List<Pedido> pedidos = bd.obtenerPedidos(usuario.getId_usuario());
+    List<Carta> cartas = bd.obtenerProductosDeUnPedido(Integer.parseInt(request.getParameter("id")));
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,26 +104,30 @@
     .invisible{
       display: none;
     }
-    .mid{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.76);
-        border-radius:20px;
+    .carrito{
+      width: 85%;
+      background: rgba(255, 255, 255, 0.774);
+    }
+    .imagenCarrito{
+      padding: 2%;
+      display: inline-block;
+      width: 10%;
+
+    }
+    .contadorCarrito{
+      width: 20%;
+
+    }
+    span{
+        padding: 2%;
     }
     table{
-        width: 100%;
+      margin: 2%;
+      width: 97%;
     }
-    td{
-        padding: 2%;
-        font-size: 1.3em;
-    }
-    th{
-        padding: 2%;
-    }
-    tr{
-        text-align: center;
+    .flotante{
+      float: right;
+      margin-top:1%;
     }
     </style>
 </head>
@@ -155,25 +162,34 @@
     </ul>
   </div>
 </nav>
-
 <div class="max-contenedor">
-    <table>
-        <tr>
-        <th>Fecha de pedido</th>
-        <th>Precio total del pedido</th>
-        <th>Ver detalles Articulos</th>
-        </tr>
-       <%for(int contador =0;contador<pedidos.size();contador++){%> 
-        <tr>
-            <td><%=pedidos.get(contador).getFecha_pedido()%></td>
-            <td><%=pedidos.get(contador).getPrecio()%>€</td>
-            <td><a class="btn btn-primary" href="./detallePedido.jsp?id=<%=pedidos.get(contador).getId_pedido()%>">Ver</a></td>
+  <table id="tabla">
+    <th>Foto</th>
+    <th>Nombre</th>
+    <th>Cantidad</th>
+    <th>Total</th>
+    <%float cuentaInicial =0;%>
+  <%for(int contador=0;contador<cartas.size();contador++){ %>
+    
+    
+    <tr id="<%=contador%>">
+      <td><img src="<%=cartas.get(contador).getFoto()%>.jpg" class="imagenCarrito" alt=""></td>
+      <td><%=cartas.get(contador).getDescripcion()%></td>
+      <td><%=cartas.get(contador).getCantidad()%></td>
+      <td id="total"><%=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100%>€</td>
+      <%cuentaInicial+=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100;%>
+    </tr>
+  <%}%>
+  <tr>
+    <td><h3>Total Pedido</h3></td>
+    <td></td>
+    <td></td>
+    <td><h3 id="totalT"><%=(Math.floor(cuentaInicial*100))/100%>€</h3></td>
+    </tr>
+  
+</table>
 
-        </tr>
-       <%}%>
-    </table>
 </div>
-
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
