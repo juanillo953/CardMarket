@@ -4,22 +4,33 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletLogea.java</file>
-            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/actualizaDatos.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletContrareembolso.java</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/principal.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/tarjeta.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/carrito.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/registrarse.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/errorRegistro.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/modelo/Usuario.java</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/pago.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/mostrarPedido.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/pedidoAdministrador.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/modelo/Pedido.java</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletCarrito.java</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletDesloguea.java</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/detallePedido.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/actualizaDatos.jsp</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletGuardaCarrito.java</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/Bd.java</file>
-            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/carrito.jsp</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/modelo/Carta.java</file>
-            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/registrarse.jsp</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/muestraArticulos.jsp</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/index.html</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletRegistro.java</file>
-            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/errorRegistro.jsp</file>
-            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/modelo/Usuario.java</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletGuardaTarjetaYValidaPedido.java</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/login.jsp</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/detalleArticulo.jsp</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/web/pedidoCorrecto.jsp</file>
             <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletActualizaDatos.java</file>
-            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletCarrito.java</file>
+            <file>file:/C:/Users/Alumno_2DAW/Documents/NetBeansProjects/CardMarket/src/java/controlador/ServletEliminaArticulo.java</file>
         </group>
     </open-files>
 </project-private>

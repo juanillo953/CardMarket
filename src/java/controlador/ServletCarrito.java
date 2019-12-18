@@ -83,6 +83,7 @@ public class ServletCarrito extends HttpServlet {
         int cantidad=0;
         int numero =0;
         int id = Integer.parseInt(request.getParameter("id_cart"));
+        int id_cat = Integer.parseInt(request.getParameter("id_cat"));
         List<Carta> cartas = (List)sesion.getAttribute("carrito");
         for(int contador = 0;contador<cartas.size();contador++){
             if(cartas.get(contador).getId()==id){
@@ -111,7 +112,7 @@ public class ServletCarrito extends HttpServlet {
             
         }
         sesion.setAttribute("carrito", cartas);
-        rd = request.getRequestDispatcher("detalleArticulo.jsp?id="+id);
+        rd = request.getRequestDispatcher("muestraArticulos.jsp?cat="+id_cat);
         rd.forward(request, response);
     }
 

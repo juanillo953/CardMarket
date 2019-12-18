@@ -15,6 +15,7 @@
     }
      Bd bd = new Bd();
     bd.abrirConexion();
+    List<Usuario> usuarios = bd.obtenerUsuarios();
     List<Pedido> pedidos = null;
     if(request.getParameter("inicial")!=null){
         String fechaInicial = request.getParameter("inicial");
@@ -208,7 +209,9 @@
         </tr>
        <%for(int contador =0;contador<pedidos.size();contador++){%> 
         <tr>
-            <td><%=pedidos.get(contador).getId_usuario()%></td>
+            <%for(int contador2=0;contador2<usuarios.size();contador2++){%>
+            <%if(usuarios.get(contador2).getId_usuario()==pedidos.get(contador).getId_usuario()){%>
+            <td><%=usuarios.get(contador2).getNombre()%></td><%}}%>
             <td><%=pedidos.get(contador).getFecha_pedido()%></td>
             <td><%=pedidos.get(contador).getPrecio()%>€</td>
             <td><a class="btn btn-primary" href="./detallePedido.jsp?id=<%=pedidos.get(contador).getId_pedido()%>">Ver</a></td>

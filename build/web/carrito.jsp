@@ -199,7 +199,7 @@
     <tr id="<%=contador%>">
       <td><img src="<%=cartas.get(contador).getFoto()%>.jpg" class="imagenCarrito" alt=""></td>
       <td><%=cartas.get(contador).getDescripcion()%></td>
-      <td><input type="number" name="cantidad[]" id="cantidad[]" value="<%=cartas.get(contador).getCantidad()%>" onchange="calculaTotal(<%=cartas.get(contador).getPrecio()%>,<%=contador%>,<%=cartas.get(contador).getDescuento()%>)"></td>
+      <td><input type="number" min="1" name="cantidad[]" id="cantidad[]" value="<%=cartas.get(contador).getCantidad()%>" onchange="calculaTotal(<%=cartas.get(contador).getPrecio()%>,<%=contador%>,<%=cartas.get(contador).getDescuento()%>)"></td>
       <td id="total"><%=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100%>€</td>
       <%cuentaInicial+=(Math.floor((cartas.get(contador).getCantidad()*(cartas.get(contador).getPrecio()*((100.0-cartas.get(contador).getDescuento())/100.0)))*100))/100;%>
       <td><a href="ServletEliminaArticulo?id=<%=cartas.get(contador).getId()%>" class="far fa-trash-alt"></a></td>

@@ -173,6 +173,7 @@
     <h6><%=carta.getTexto()%></h6><%}%>
     <form action="ServletCarrito" method="POST">
       <input type="text" name="id_cart" value="<%=carta.getId()%>" class="invisible">
+      <input type="text" name="id_cat" value="<%=carta.getCategoria()%>" class="invisible">
       <input type="submit" value="Añadir al carrito" class="btn btn-primary btn-success">
     </form>
 

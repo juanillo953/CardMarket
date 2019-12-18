@@ -270,7 +270,9 @@ public class Bd {
            rs = pst.executeQuery();
            while(rs.next()){
                 int id_pedido = rs.getInt(1);
+                
                 int id_usuario = rs.getInt(2);
+                
                 java.sql.Date fecha_pedido = rs.getDate(3);
                 float precio = rs.getFloat(4);
                 Pedido pedido = new Pedido(id_pedido, id_usuario, fecha_pedido, precio);

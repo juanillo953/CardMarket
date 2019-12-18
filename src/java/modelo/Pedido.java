@@ -16,14 +16,13 @@ public class Pedido {
    private int id_usuario;
    private Date fecha_pedido;
    private float precio;
-
     public Pedido(int id_pedido, int id_usuario, Date fecha_pedido, float precio) {
         this.id_pedido = id_pedido;
         this.id_usuario = id_usuario;
         this.fecha_pedido = fecha_pedido;
         this.precio = precio;
     }
-
+    
     public int getId_pedido() {
         return id_pedido;
     }
